@@ -1,30 +1,29 @@
-% is the verifier complete wrt syntax? How can I argue this?
-% Future work - do you understand wider context of you project?
-% multiboot on qemu
-% Borrowing/ownership model
-% verifier static codebase
-
 \chapter{Conclusion}\label{ch:conclusion}
 
 \section{Achievements}
 This project delivered a working implementation of Veritas: a refinement-typed imperative source language, a type-preserving compiler, an independent DTAL verifier, and native hosted and bare-metal execution targets. The core architectural achievement is that important source-level guarantees are preserved below the frontend. Refinement constraints, contracts, array-bounds obligations, and borrowing/ownership information are carried through TAST, TIR, and DTAL, then re-checked independently at the low level rather than trusted after compilation.
 
-The evaluation provides evidence that this design works for the implemented fragment. The frontend and independent physical-DTAL verifier agree on all 28 valid feature-suite programs, the negative suite rejects 35 invalid source programs spanning the main supported error classes, and the DTAL tampering corpus shows that representative low-level corruptions are detected after compilation. Taken together, these results support the dissertation's main claim: Veritas demonstrates that a useful SMT-verified imperative fragment can be compiled to low-level code while retaining an explicit and independently checkable safety story.
+\begin{center}
+\small
+\begin{tabularx}{0.96\textwidth}{>{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Claim} & \textbf{Evidence} \\
+\midrule
+The pipeline is end-to-end & Source programs compile to native Linux and bare-metal outputs through TAST, TIR, virtual DTAL, physical DTAL, and a direct encoder. \\
+The low-level check is meaningful & The frontend and independent physical-DTAL verifier agree on all 28 valid feature-suite programs. \\
+Unsafe programs are rejected & The negative suite rejects 35 invalid source programs, and the DTAL tampering corpus rejects 14 representative low-level corruptions. \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+Taken together, these results support the dissertation's main claim: Veritas demonstrates that a useful SMT-verified imperative fragment can be compiled to low-level code while retaining an explicit and independently checkable safety story.
 
 \section{Future work}
-The most natural next step is to extend the supported fragment without weakening the trust architecture. This includes a richer borrowing model with non-lexical lifetimes and reborrowing, more expressive data structures and heap reasoning, and more type-directed optimisation that can exploit proven facts such as bounds or singleton information. On the assurance side, the strongest longer-term direction is to reduce trust further by formalising the verifier or its key metatheory in a proof assistant, while on the engineering side the project would benefit from broader benchmarking, larger verification corpora, and a public open-source release to make the toolchain easier to evaluate and build on.
+The natural next step is to extend the supported fragment without weakening the trust architecture: richer borrowing, more expressive data structures, heap reasoning, and type-directed optimisation that exploits proven facts such as bounds or singleton information. On the assurance side, the strongest longer-term direction is to reduce trust further by formalising the verifier or its key metatheory in a proof assistant. Broader benchmarking and larger verification corpora would make the toolchain easier to evaluate.
 
 \section{Reflections}
-% Reflections
-% How would I plan the project if starting again?
-% Initial proposal ext: concurrency and behavioural properties
-% SWE practices, language design
+If starting again, I would make the evaluation plan more concrete earlier. The implementation was driven by a clear architectural goal, but some proposed extensions, especially concurrency and broader behavioural properties, were too far from the central trust-boundary claim.
 
-Presenting the language rules first
+The most useful technical lesson was that the end-to-end path mattered from the start. Building only the source language or only a DTAL verifier would have hidden many of the hard problems: phi-node joining, register allocation, spill handling, calling conventions, and the boundary between untrusted allocation and trusted encoding. Debugging generated binaries with \texttt{objdump} and \texttt{gdb} made the project feel less like a paper design and more like a compiler that had to survive real low-level details.
 
-Debugging (objdump, gdb)
-
-While I was clear on the components I had to implement in the architecture and how I would go about this, I would have wanted my evaluation plan to be more concrete from the start of the project.
-It would have prevented feature creep and provide stronger direction for extensions that directly contribute to the core aims. Extensions in proposal overly ambitious
-
-Talking to others about my project was useful for ... I presented a poster for my dissertation at the OxBridge Women in Computer Science Conference 2026\footnote{See \url{https://www.cs.ox.ac.uk/event/52-full.html}}.
+The final result is therefore a deliberately scoped but complete systems artefact. It does not try to compete with mature verification languages on breadth, or with mature compilers on optimisation. Its contribution is narrower and, for this project, more important: it demonstrates an end-to-end route from source-level refinements to independently checked low-level code, with executable Linux and bare-metal outputs. The main remaining work is to scale the fragment and reduce the trusted checker further; the architecture itself is implemented and empirically exercised.

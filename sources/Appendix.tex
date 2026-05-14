@@ -381,9 +381,11 @@ The following instructions appear only after register allocation and are verifie
 
 \chapter{Evaluation tables}
 
-\begin{table}[h]
+\begin{table}[H]
   \centering
-  \small
+  \footnotesize
+  \setlength{\tabcolsep}{3.6pt}
+  \renewcommand{\arraystretch}{0.98}
   \begin{tabular}{p{0.33\textwidth} c c p{0.4\textwidth}}
     \hline
     \textbf{Feature}                           & \textbf{Xi--Harper} & \textbf{Veritas} & \textbf{Notes}                                                                                                               \\
@@ -408,7 +410,6 @@ The following instructions appear only after register allocation and are verifie
   \caption{Feature comparison between Xi and Harper's DTAL and the DTAL implemented in Veritas.}
   \label{tab:dtal-xi-harper-comparison}
 \end{table}
-
 \begin{table}[h]
   \centering
   \small
@@ -519,10 +520,3 @@ The following instructions appear only after register allocation and are verifie
     cross-system comparison suite.}
   \label{tab:comparison-suite-wallclock}
 \end{table}
-
-\chapter{Project proposal}
-
-\includepdf[
-  pages=-,
-  pagecommand={\thispagestyle{empty}}
-]{sources/proposal.pdf}

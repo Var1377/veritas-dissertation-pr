@@ -1,4 +1,5 @@
 \documentclass{mimosis}
+\KOMAoptions{open=any}
 
 \usepackage{ebgaramond}
 \usepackage{amssymb}
@@ -7,11 +8,33 @@
 \usepackage{pdfpages}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{booktabs}
 \usepackage{xcolor}
 
 \usepackage{enumitem}
 \setlist{itemsep=0pt,parsep=0pt}
 \linespread{0.95}  
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em plus 0.15em minus 0.1em}
+\setlength{\textfloatsep}{0.75em plus 0.15em minus 0.1em}
+\setlength{\floatsep}{0.65em plus 0.15em minus 0.1em}
+\setlength{\intextsep}{0.75em plus 0.15em minus 0.1em}
+\setlength{\abovecaptionskip}{0.35em}
+\setlength{\belowcaptionskip}{0pt}
+\renewcommand*{\chapterheadstartvskip}{\vspace*{0.2\baselineskip}}
+\renewcommand*{\chapterheadendvskip}{\vspace{0.85\baselineskip}}
+\RedeclareSectionCommand[
+  beforeskip=1.15\baselineskip plus 0.2\baselineskip minus 0.1\baselineskip,
+  afterskip=0.45\baselineskip plus 0.05\baselineskip
+]{section}
+\RedeclareSectionCommand[
+  beforeskip=0.85\baselineskip plus 0.15\baselineskip minus 0.1\baselineskip,
+  afterskip=0.3\baselineskip plus 0.05\baselineskip
+]{subsection}
+\RedeclareSectionCommand[
+  beforeskip=0.65\baselineskip plus 0.1\baselineskip minus 0.1\baselineskip,
+  afterskip=0.2\baselineskip plus 0.05\baselineskip
+]{subsubsection}
 
 \usepackage{url}
 \usepackage{hyperref}
@@ -45,8 +68,48 @@
 \let\endcminted\endminted
 \xpretocmd{\cminted}{\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}}{}{}
 
+\tcbset{
+  veritasbox/.style={
+    colback=gray!5!white,
+    colframe=black!70,
+    boxrule=0.5pt,
+    arc=1pt,
+    left=0.8em,
+    right=0.8em,
+    top=0.6em,
+    bottom=0.6em
+  }
+}
+
 \newcommand{\kw}[1]{\textcolor{blue!70!black}{\textsf{#1}}}
 \newcommand{\optclause}[1]{\textcolor{gray}{#1}}
+\newcommand{\term}[1]{\textit{#1}}
+\newcommand{\detailhead}[1]{\noindent\textbf{#1.}\ }
+\newcommand{\componentblock}[3][0.15em]{%
+  \par\vspace{#1}%
+  \noindent\textbf{#2}\\%
+  #3\par%
+}
+\newcommand{\prepblock}[2]{%
+  \par\medskip%
+  \noindent\textbf{#1}\\%
+  #2\par%
+}
+\newcommand{\challengeblock}[4]{%
+  \par\medskip%
+  \noindent\textbf{#1}\\%
+  \textit{Problem.} #2\par%
+  \noindent\textit{Design.} #3\par%
+  \noindent\textit{Effect.} #4\par%
+}
+\newcommand{\pipelinebox}[1]{%
+  \begin{center}
+    \begin{tcolorbox}[veritasbox,width=0.86\textwidth]
+      \centering
+      #1
+    \end{tcolorbox}
+  \end{center}
+}
 
 \title{A type-preserving compiler from a systems language to a dependently typed assembly language}
 \author{9615Q}
@@ -79,12 +142,13 @@
 \include{sources/5-Conclusion}
 
 %TC:ignore
-\include{sources/Appendix}
-
-\backmatter
 
 \bibliographystyle{unsrt}
 \bibliography{references}
+
+\include{sources/Appendix}
+
+\include{sources/ProjectProposal}
 %TC:endignore
 
 \end{document}
